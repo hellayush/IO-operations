@@ -1,0 +1,126 @@
+Q1 - What is input and output stream in java ?
+
+ANS - * Streams:
+
+ * Think of a stream as a sequence of data bytes or characters.
+ * Java provides two main categories of streams:
+ * Byte Streams: Deal with raw bytes of data (8 bits each). Useful for handling binary data (images, compressed files).
+ * Character Streams: Work with individual characters, often encoded in Unicode for broader character support (text files).
+
+
+ * InputStream and OutputStream:
+
+ * These are abstract classes in the java.io package that define the basic functionality for reading and writing data, respectively.
+ * They provide methods for fundamental operations like reading/writing bytes/characters, checking for end of stream, and closing the stream.
+ * Specific stream classes inherit from these abstract classes and implement the details of handling different data sources and destinations.
+
+Q2 - What are the methods of OutputStream ?
+
+ANS -   The OutputStream class in Java provides several methods for writing data and managing the stream. Here's a breakdown of the important ones:
+
+Essential Methods:
+
+ * write(int b): Writes a single byte (b) to the stream.
+ * write(byte[] b): Writes all bytes from the byte array b to the stream. 
+ * write(byte[] b, int off, int len): Writes a specific portion (len bytes) from the byte array b starting at index off to the stream. This allows writing a subset of the data in the array.
+ * close(): Closes the stream and releases any system resources associated with it. Important to call to avoid resource leaks.
+
+Q3 - What is serialization in java ?
+
+ANS - In Java, serialization is the process of converting an object's state into a byte stream. This stream can then be saved to a file, transmitted over a network, or stored for later use. The opposite process, converting the byte stream back into an object, is called deserialization.
+
+Here's a quick breakdown:
+
+ Object to Stream: Serialization allows you to take a Java object and turn it into a format that can be easily stored or transmitted.
+
+ Byte Stream: This stream is like a sequence of bytes containing the information about the object's fields and values.
+
+Deserialization: When you need the object back, you can deserialize the byte stream to recreate the original object in memory.
+
+Q4 - What is serializable interface in java ?
+
+ANS - The Serializable interface in Java is a marker interface used for serialization. Here's a breakdown of its key aspects:
+
+Purpose:
+
+Marks a class as eligible to have its objects serialized and deserialized.
+Serialization allows you to convert an object's state into a byte stream for storage or transmission.
+
+Q5 - What is deserialization in java ?
+
+ANS - Deserialization is useful in scenarios where you've previously saved an object's state as a byte stream and now want to use the
+ object again.
+
+ *  Here are some common use cases:
+
+  * Recovering Object State: You can deserialize a byte stream to retrieve an object's state that was previously saved to a file.
+  * Network Communication: Objects can be serialized and transmitted over a network. Deserialization allows the receiving application to recreate the object from the received byte stream.
+
+Q6 - How is serialization achieved in java ?
+
+ANS - Serialization in Java involves two main components:
+
+The Serializable Interface: This is a marker interface, meaning it doesn't have any methods to implement.  A class that wants its objects to be serialized implements this interface. It acts as a flag to the serialization mechanism that objects of this class can be converted to a byte stream.
+
+Object Streams: Java provides two key stream classes for serialization:
+
+ ObjectOutputStream: This class is used for writing an object's state to a byte stream. You provide an open OutputStream (like  FileOutputStream connected to a file)
+  ObjectOutputStream writes the object's data to that stream in a format suitable for deserialization.
+
+ObjectInputStream: This class is used for reading a serialized object from a byte stream. You provide an open InputStream (like a FileInputStream connected to a file containing serialized data), and the ObjectInputStream reads the byte stream and reconstructs the original object in memory.
+
+Q7 - How is dsserialization achieved in java ?
+
+ANS - Deserialization in Java builds upon the foundation laid by serialization. Here's how it takes a serialized byte stream and recreates the original object:
+
+Byte Stream: You have a byte stream obtained through previous serialization of an object. This stream holds the encoded information about the object's state.
+
+ObjectInputStream: The ObjectInputStream class is your key to deserialization. You create an instance of this class, providing it with an InputStream connected to the byte stream source (file, network connection).
+
+readObject(): The magic happens with the readObject method of ObjectInputStream. This method reads the byte stream and interprets the encoded data.
+
+Object Reconstruction: Based on the information gleaned from the byte stream, readObject meticulously rebuilds the object in memory. It essentially translates the byte stream back into the original object, setting its field values according to the serialized data.
+
+Result: You now have a functional replica of the original object in memory, ready to be used by your program.
+
+Q8 - How can you avoid certain members variables of class getting serialized ? 
+
+ANS - There are two main approaches to avoid serialization of specific member variables in a Java class:
+
+transient Keyword:
+
+The transient keyword is the most common way to exclude member variables from serialization. You simply declare the variable you want to skip serialization with the transient modifier before its type.
+
+Custom Serialization with Externalizable:
+
+The Serializable interface is a marker interface and doesn't provide control over the actual serialization process. If you need more granular control, you can use the Externalizable interface. This approach requires implementing the writeExternal and readExternal methods in your class. Within these methods, you can selectively write and read the specific member variables you want to include or exclude during serialization and deserialization.
+
+Q9 - What classes are available in the Java IO file classes API ?
+
+ANS - The Java java.io package provides a foundational set of classes for file and directory I/O operations. Here's a breakdown of some key classes:
+
+Core Classes:
+
+File: This is the fundamental class for representing files and directories. It provides methods for checking existence, getting metadata (size, last modified time), creating/deleting files and directories, and renaming operations.
+FileInputStream: Used for reading bytes from a file.
+FileOutputStream: Used for writing bytes to a file.
+FileReader: Used for reading characters from a text file.
+FileWriter: Used for writing characters to a text file.
+
+Q10 - What is the difference between Externalizable and  Serializable interface ?
+
+ANS - Both Serializable and Externalizable are interfaces in Java used for object serialization, but they offer different levels of control and functionality:
+
+Serializable:
+
+Simpler Approach: It's a marker interface, meaning it doesn't have any methods to implement.
+Automatic Serialization: By implementing Serializable, a class indicates its objects can be serialized using the default Java serialization mechanism.
+Limited Control: You don't have control over how the object's state is serialized or deserialized. The JVM handles the process automatically.
+Common Use Cases: Suitable for basic scenarios where you want to serialize all an object's fields or don't need to customize the serialization process.
+Externalizable:
+
+More Control: It provides more control over serialization compared to Serializable.
+Manual Serialization: Implements two methods, writeExternal and readExternal, which you need to override in your class to define the specific logic for serialization and deserialization.
+Customizable Format: You can control the format of the serialized data and potentially achieve a more compact representation.
+Complex Object Structures: Useful for handling complex object structures or objects with references that require special handling during serialization.
+Less Common: Requires more effort to implement compared to Serializable and might be overkill for simple cases.
